@@ -1,0 +1,2008 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard CPP - Cuidados Paliativos Pediátricos</title>
+    <style>
+        :root {
+            /* PEDPAL Color Palette */
+            --pedpal-orange: #F7941D;
+            --pedpal-green: #8DC63F;
+            --pedpal-fuchsia: #EC008C;
+            --pedpal-blue: #00AEEF;
+            --pedpal-brown: #4B2E1C;
+            
+            /* Semantic colors based on PEDPAL meaning */
+            --color-energy: var(--pedpal-orange); /* CTA/action, highlights */
+            --color-hope: var(--pedpal-green); /* positive messages */
+            --color-closeness: var(--pedpal-fuchsia); /* humanization, tooltips */
+            --color-professional: var(--pedpal-blue); /* base, headers, cards */
+            --color-stability: var(--pedpal-brown); /* dividers, footer */
+            
+            /* Utility colors */
+            --bg-gray: #f3f4f6;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --border-color: #e5e7eb;
+            --white: #ffffff;
+            --overlay-dark: rgba(0, 0, 0, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-gray);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--color-professional) 0%, #33c3f0 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .header-actions {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .header-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .header-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--bg-gray);
+        }
+
+        .card-header h2 {
+            font-size: 20px;
+            color: var(--color-professional);
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-step {
+            background: var(--color-energy);
+            color: white;
+        }
+
+        .search-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--color-professional);
+            box-shadow: 0 0 0 3px rgba(0, 174, 239, 0.1);
+        }
+
+        .autocomplete-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid var(--border-color);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .autocomplete-list.active {
+            display: block;
+        }
+
+        .autocomplete-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: background 0.2s;
+            border-bottom: 1px solid var(--bg-gray);
+        }
+
+        .autocomplete-item:hover {
+            background: var(--bg-gray);
+        }
+
+        .autocomplete-item strong {
+            color: var(--color-professional);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--color-energy);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #e6880a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(247, 148, 29, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--color-professional);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #0099d6;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--color-professional);
+            color: var(--color-professional);
+        }
+
+        .btn-outline:hover {
+            background: var(--color-professional);
+            color: white;
+        }
+
+        .btn-link {
+            background: transparent;
+            color: var(--color-professional);
+            padding: 8px 12px;
+            text-decoration: underline;
+        }
+
+        .result-card {
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 20px;
+            border: 3px solid;
+        }
+
+        .result-tributary {
+            background: #e8f5e9;
+            border-color: var(--color-hope);
+        }
+
+        .result-non-tributary {
+            background: #fff3e0;
+            border-color: var(--color-energy);
+        }
+
+        .result-pending {
+            background: #fff8e1;
+            border-color: var(--color-energy);
+        }
+
+        .result-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .result-text {
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .scale-section {
+            background: var(--bg-gray);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .scale-section h3 {
+            font-size: 18px;
+            color: var(--color-professional);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+
+        .tooltip-icon {
+            width: 20px;
+            height: 20px;
+            background: var(--color-closeness);
+            color: white;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .tooltip-text {
+            visibility: hidden;
+            width: 280px;
+            background-color: var(--text-dark);
+            color: white;
+            text-align: left;
+            border-radius: 8px;
+            padding: 12px;
+            position: absolute;
+            z-index: 1001;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -140px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            margin-top: 4px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--color-professional);
+        }
+
+        .checkbox-item label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .score-display {
+            background: linear-gradient(135deg, var(--color-professional) 0%, #33c3f0 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .score-number {
+            font-size: 48px;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .score-label {
+            font-size: 14px;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .score-threshold {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            font-size: 14px;
+        }
+
+        .flowchart-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .flowchart-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .info-box {
+            background: #e1f5fe;
+            border-left: 4px solid var(--color-professional);
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+        }
+
+        .info-box p {
+            margin: 0;
+            color: var(--text-dark);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            header h1 {
+                font-size: 22px;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .tooltip-text {
+                width: 200px;
+                margin-left: -100px;
+            }
+        }
+
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .section-number {
+            background: var(--color-energy);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .complexity-level {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .complexity-low {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .complexity-medium {
+            background: #fff8e1;
+            color: #f57c00;
+        }
+
+        .complexity-high {
+            background: #fce4ec;
+            color: #c2185b;
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: var(--overlay-dark);
+            animation: fadeIn 0.3s;
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 20px;
+            padding: 0;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s;
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, var(--color-professional) 0%, #33c3f0 100%);
+            color: white;
+            padding: 20px 25px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h2 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 600;
+        }
+        
+        .modal-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+        
+        .modal-body {
+            padding: 25px;
+        }
+        
+        .modal-footer {
+            padding: 20px 25px;
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-gray);
+            border-radius: 0 0 12px 12px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        
+        .pedcomp-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        
+        .pedcomp-table th {
+            background: var(--color-professional);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .pedcomp-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .pedcomp-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .pedcomp-section {
+            background: var(--bg-gray);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--color-energy);
+        }
+        
+        .pedcomp-section h4 {
+            color: var(--color-professional);
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .pedcomp-section ul {
+            margin: 10px 0 0 20px;
+        }
+        
+        .pedcomp-section li {
+            margin: 5px 0;
+        }
+        
+        .flow-diagram {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .flow-step {
+            background: white;
+            border: 2px solid var(--color-professional);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px auto;
+            max-width: 600px;
+            position: relative;
+        }
+        
+        .flow-step::after {
+            content: '↓';
+            display: block;
+            font-size: 24px;
+            color: var(--color-energy);
+            margin-top: 10px;
+        }
+        
+        .flow-step:last-child::after {
+            display: none;
+        }
+        
+        .flow-step.decision {
+            border-color: var(--color-energy);
+            background: #fff8e1;
+        }
+        
+        .flow-step.result {
+            border-color: var(--color-hope);
+            background: #e8f5e9;
+        }
+        
+        .help-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            background: var(--color-closeness);
+            color: white;
+            border-radius: 50%;
+            font-size: 11px;
+            font-weight: bold;
+            margin-left: 5px;
+            cursor: help;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-actions">
+            <button class="header-btn" onclick="openFlowModal()">📊 Flujo de Identificación</button>
+            <button class="header-btn" onclick="openPedcompModal()">📋 Escala PEDCOMP</button>
+        </div>
+        <h1>🏥 Dashboard de Cuidados Paliativos Pediátricos</h1>
+        <p>Evaluación de necesidad de CPP basada en diagnóstico CIE-10 y complejidad clínica PedCom</p>
+    </header>
+
+    <div class="container">
+        <!-- Quick Access Resources -->
+        <div class="card">
+            <div class="card-header">
+                <h2>📚 Recursos de Ayuda</h2>
+            </div>
+            <div class="info-box">
+                <p><strong>Información contextual:</strong> Puede consultar en cualquier momento el flujo de identificación y la escala PEDCOMP ampliada sin perder su progreso. Haga clic en los botones superiores o en los enlaces de ayuda.</p>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="openFlowModal()">
+                    📊 Ver Flujo de Identificación
+                </button>
+                <button class="btn btn-primary" onclick="openPedcompModal()">
+                    📋 Ver Escala PEDCOMP Ampliada
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 1: Diagnosis Search -->
+        <div class="card" id="searchCard">
+            <div class="card-header">
+                <h2>🔍 Paso 1: Búsqueda de Diagnóstico</h2>
+                <span class="badge badge-step">Paso 1</span>
+            </div>
+            
+            <div class="search-container">
+                <label for="diagnosisSearch" style="display: block; margin-bottom: 10px; font-weight: 600;">
+                    Buscar por diagnóstico o código CIE-10:
+                </label>
+                <input 
+                    type="text" 
+                    id="diagnosisSearch" 
+                    class="search-input" 
+                    placeholder="Ej: C71.9, Tumor cerebral, Leucemia..."
+                    autocomplete="off"
+                >
+                <div id="autocompleteList" class="autocomplete-list"></div>
+            </div>
+
+            <div class="info-box">
+                <p>💡 <strong>Ayuda:</strong> Puede buscar por el código CIE-10 exacto o por el nombre del diagnóstico. El sistema comparará automáticamente con la lista de códigos tributarios de CPP. 
+                <a href="#" onclick="openFlowModal(); return false;" style="color: var(--color-closeness); font-weight: 600;">Ver flujo completo</a></p>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="checkDiagnosis()">
+                    ✓ Verificar Diagnóstico
+                </button>
+                <a href="https://icd10cmtool.cdc.gov/" target="_blank" class="btn btn-outline">
+                    🔗 Consultar CIE-10 en CDC
+                </a>
+            </div>
+
+            <div id="diagnosisResult" class="hidden"></div>
+        </div>
+
+        <!-- Step 2: PedCom Scale (initially hidden) -->
+        <div class="card hidden" id="pedcomCard">
+            <div class="card-header">
+                <h2>📋 Paso 2: Evaluación de Complejidad Clínica (Escala PedCom Expandida)</h2>
+                <span class="badge badge-step">Paso 2</span>
+            </div>
+
+            <div class="info-box">
+                <p><strong>Instrucciones:</strong> El diagnóstico no está en la lista de códigos tributarios automáticos. Por favor, complete la escala de complejidad PedCom expandida marcando los criterios que aplican al paciente. 
+                <a href="#" onclick="openPedcompModal(); return false;" style="color: var(--color-closeness); font-weight: 600;">Ver escala completa</a></p>
+            </div>
+
+            <form id="pedcomForm">
+                <!-- Section 1: Specialized Care -->
+                <div class="scale-section">
+                    <h3>
+                        <span class="section-number">1</span>
+                        Atención Especializada
+                        <span class="tooltip">
+                            <span class="tooltip-icon">?</span>
+                            <span class="tooltip-text">Número de especialidades médicas involucradas en el cuidado del paciente y seguimiento en unidad de CPP.</span>
+                        </span>
+                    </h3>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="spec_4" name="specialized" value="1" onchange="calculateScore()">
+                            <label for="spec_4">Menos de 4 especialidades (1 punto)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="spec_4plus" name="specialized" value="2" onchange="calculateScore()">
+                            <label for="spec_4plus">4 o más especialidades / Unidad CPP (2 puntos)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Chronic Medication -->
+                <div class="scale-section">
+                    <h3>
+                        <span class="section-number">2</span>
+                        Medicación Crónica
+                        <span class="tooltip">
+                            <span class="tooltip-icon">?</span>
+                            <span class="tooltip-text">Tipo y número de fármacos que el paciente requiere de forma continua, incluyendo vías de administración especiales.</span>
+                        </span>
+                    </h3>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="med_5" name="medication" value="1" onchange="calculateScore()">
+                            <label for="med_5">Menos de 5 fármacos (1 punto)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="med_5plus" name="medication" value="2" onchange="calculateScore()">
+                            <label for="med_5plus">5 o más fármacos (2 puntos)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="med_subcut" name="medication" value="1" onchange="calculateScore()">
+                            <label for="med_subcut">Infusión subcutánea (1 punto)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="med_intratecal" name="medication" value="1" onchange="calculateScore()">
+                            <label for="med_intratecal">Infusión intratecal (1 punto)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="med_hospital" name="medication" value="1" onchange="calculateScore()">
+                            <label for="med_hospital">Medicación hospitalaria exclusiva (1 punto)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="med_iv" name="medication" value="2" onchange="calculateScore()">
+                            <label for="med_iv">Infusión IV domiciliaria (2 puntos)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Technology Dependence -->
+                <div class="scale-section">
+                    <h3>
+                        <span class="section-number">3</span>
+                        Dependencia Tecnológica
+                        <span class="tooltip">
+                            <span class="tooltip-icon">?</span>
+                            <span class="tooltip-text">Dispositivos médicos y tecnología de soporte vital que requiere el paciente.</span>
+                        </span>
+                    </h3>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="tech_oxygen" name="technology" value="1" onchange="calculateScore()">
+                            <label for="tech_oxygen">Oxigenoterapia (1 punto)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="tech_nutrition" name="technology" value="1" onchange="calculateScore()">
+                            <label for="tech_nutrition">Nutrición enteral/parenteral (1 punto)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="tech_trach" name="technology" value="2" onchange="calculateScore()">
+                            <label for="tech_trach">Traqueostomía (2 puntos)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="tech_vent" name="technology" value="2" onchange="calculateScore()">
+                            <label for="tech_vent">Ventilación mecánica (2 puntos)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="tech_dialysis" name="technology" value="2" onchange="calculateScore()">
+                            <label for="tech_dialysis">Diálisis (2 puntos)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Hospital Admissions -->
+                <div class="scale-section">
+                    <h3>
+                        <span class="section-number">4</span>
+                        Ingresos Hospitalarios
+                        <span class="tooltip">
+                            <span class="tooltip-icon">?</span>
+                            <span class="tooltip-text">Frecuencia de hospitalizaciones en el último año.</span>
+                        </span>
+                    </h3>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="hosp_1_2" name="hospital" value="1" onchange="calculateScore()">
+                            <label for="hosp_1_2">1-2 ingresos/año (1 punto)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="hosp_3plus" name="hospital" value="2" onchange="calculateScore()">
+                            <label for="hosp_3plus">3 o más ingresos/año (2 puntos)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="hosp_icu" name="hospital" value="2" onchange="calculateScore()">
+                            <label for="hosp_icu">Ingreso en UCI (2 puntos)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 5: Pain and Symptom Management -->
+                <div class="scale-section">
+                    <h3>
+                        <span class="section-number">5</span>
+                        Control de Síntomas
+                        <span class="tooltip">
+                            <span class="tooltip-icon">?</span>
+                            <span class="tooltip-text">Presencia de síntomas que requieren manejo especializado y su complejidad.</span>
+                        </span>
+                    </h3>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="symp_pain" name="symptoms" value="1" onchange="calculateScore()">
+                            <label for="symp_pain">Dolor crónico (1 punto)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="symp_dyspnea" name="symptoms" value="1" onchange="calculateScore()">
+                            <label for="symp_dyspnea">Disnea (1 punto)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="symp_complex" name="symptoms" value="2" onchange="calculateScore()">
+                            <label for="symp_complex">Síntomas refractarios o complejos (2 puntos)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="symp_multiple" name="symptoms" value="2" onchange="calculateScore()">
+                            <label for="symp_multiple">Múltiples síntomas simultáneos (&gt;3) (2 puntos)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 6: Functional Status -->
+                <div class="scale-section">
+                    <h3>
+                        <span class="section-number">6</span>
+                        Estado Funcional
+                        <span class="tooltip">
+                            <span class="tooltip-icon">?</span>
+                            <span class="tooltip-text">Capacidad funcional del paciente y nivel de dependencia para actividades diarias.</span>
+                        </span>
+                    </h3>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="func_moderate" name="functional" value="1" onchange="calculateScore()">
+                            <label for="func_moderate">Limitación moderada (1 punto)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="func_severe" name="functional" value="2" onchange="calculateScore()">
+                            <label for="func_severe">Limitación severa / Dependencia total (2 puntos)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 7: Prognosis -->
+                <div class="scale-section">
+                    <h3>
+                        <span class="section-number">7</span>
+                        Pronóstico
+                        <span class="tooltip">
+                            <span class="tooltip-icon">?</span>
+                            <span class="tooltip-text">Expectativa de vida según evaluación médica.</span>
+                        </span>
+                    </h3>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="prog_uncertain" name="prognosis" value="1" onchange="calculateScore()">
+                            <label for="prog_uncertain">Pronóstico incierto (&gt;2 años) (1 punto)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="prog_limited" name="prognosis" value="2" onchange="calculateScore()">
+                            <label for="prog_limited">Pronóstico limitado (&lt;2 años) (2 puntos)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="prog_terminal" name="prognosis" value="3" onchange="calculateScore()">
+                            <label for="prog_terminal">Fase terminal (&lt;6 meses) (3 puntos)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 8: Psychosocial Impact -->
+                <div class="scale-section">
+                    <h3>
+                        <span class="section-number">8</span>
+                        Impacto Psicosocial
+                        <span class="tooltip">
+                            <span class="tooltip-icon">?</span>
+                            <span class="tooltip-text">Impacto de la enfermedad en el paciente, familia y entorno social.</span>
+                        </span>
+                    </h3>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="psych_family" name="psychosocial" value="1" onchange="calculateScore()">
+                            <label for="psych_family">Estrés familiar significativo (1 punto)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="psych_patient" name="psychosocial" value="1" onchange="calculateScore()">
+                            <label for="psych_patient">Sufrimiento emocional del paciente (1 punto)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="psych_complex" name="psychosocial" value="2" onchange="calculateScore()">
+                            <label for="psych_complex">Situación psicosocial compleja (2 puntos)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 9: Care Coordination -->
+                <div class="scale-section">
+                    <h3>
+                        <span class="section-number">9</span>
+                        Coordinación Asistencial
+                        <span class="tooltip">
+                            <span class="tooltip-icon">?</span>
+                            <span class="tooltip-text">Complejidad en la coordinación entre diferentes niveles asistenciales y profesionales.</span>
+                        </span>
+                    </h3>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="coord_multi" name="coordination" value="1" onchange="calculateScore()">
+                            <label for="coord_multi">Múltiples profesionales implicados (1 punto)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="coord_complex" name="coordination" value="2" onchange="calculateScore()">
+                            <label for="coord_complex">Coordinación compleja entre niveles (2 puntos)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 10: Ethical/Decision Making -->
+                <div class="scale-section">
+                    <h3>
+                        <span class="section-number">10</span>
+                        Aspectos Éticos y Decisiones
+                        <span class="tooltip">
+                            <span class="tooltip-icon">?</span>
+                            <span class="tooltip-text">Necesidad de soporte en toma de decisiones complejas y planificación anticipada de cuidados.</span>
+                        </span>
+                    </h3>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="eth_decisions" name="ethical" value="1" onchange="calculateScore()">
+                            <label for="eth_decisions">Decisiones terapéuticas complejas (1 punto)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="eth_advance" name="ethical" value="2" onchange="calculateScore()">
+                            <label for="eth_advance">Necesidad de planificación anticipada / Conflictos éticos (2 puntos)</label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Score Display -->
+            <div class="score-display">
+                <div class="score-label">Puntuación Total PedCom</div>
+                <div class="score-number" id="totalScore">0.0</div>
+                <div class="score-threshold">
+                    <strong>Umbral CPP:</strong> ≥ 6.5 puntos = Tributario de Cuidados Paliativos Pediátricos
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button type="button" class="btn btn-primary" onclick="evaluateComplexity()">
+                    ✓ Evaluar Complejidad
+                </button>
+                <button type="button" class="btn btn-outline" onclick="resetForm()">
+                    ↻ Reiniciar Evaluación
+                </button>
+            </div>
+
+            <div id="complexityResult" class="hidden"></div>
+        </div>
+
+        <!-- Final Results Section -->
+        <div class="card hidden" id="finalResultCard">
+            <div class="card-header">
+                <h2>📄 Resultado Final y Recomendaciones</h2>
+            </div>
+            <div id="finalResultContent"></div>
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="downloadReport()">
+                    📥 Descargar Informe
+                </button>
+                <button class="btn btn-outline" onclick="resetAll()">
+                    🔄 Nueva Evaluación
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal: Flujo de Identificación -->
+    <div id="flowModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📊 Flujo de Identificación de Pacientes Tributarios de CPP</h2>
+                <button class="modal-close" onclick="closeFlowModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="info-box">
+                    <p><strong>Para profesionales y familias:</strong> Este diagrama muestra el proceso completo de identificación y clasificación de pacientes que necesitan Cuidados Paliativos Pediátricos.</p>
+                </div>
+                
+                <div class="flow-diagram">
+                    <div class="flow-step">
+                        <strong>INICIO</strong>
+                        <p>Paciente pediátrico con enfermedad grave o compleja</p>
+                    </div>
+                    
+                    <div class="flow-step decision">
+                        <strong>PASO 1: Búsqueda diagnóstica</strong>
+                        <p>¿El diagnóstico está en la lista de códigos CIE-10 tributarios?</p>
+                    </div>
+                    
+                    <div class="flow-step result">
+                        <strong>SÍ → TRIBUTARIO DE CPP</strong>
+                        <p>Derivación directa a Unidad de Cuidados Paliativos Pediátricos</p>
+                    </div>
+                    
+                    <div class="flow-step decision">
+                        <strong>NO → PASO 2: Evaluación de complejidad</strong>
+                        <p>Completar escala PedCom expandida</p>
+                    </div>
+                    
+                    <div class="flow-step decision">
+                        <strong>Cálculo de puntuación</strong>
+                        <p>¿La puntuación es ≥ 6.5 puntos?</p>
+                    </div>
+                    
+                    <div class="flow-step result">
+                        <strong>SÍ → TRIBUTARIO DE CPP</strong>
+                        <p>Alta complejidad. Derivación a CPP</p>
+                    </div>
+                    
+                    <div class="flow-step">
+                        <strong>NO → NO TRIBUTARIO</strong>
+                        <p>Seguimiento habitual. Reevaluación si hay cambios clínicos</p>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 30px; padding: 20px; background: var(--bg-gray); border-radius: 8px;">
+                    <h3 style="color: var(--color-professional); margin-bottom: 15px;">📌 Puntos Clave</h3>
+                    <ul style="margin-left: 20px; line-height: 1.8;">
+                        <li><strong>Lista tributaria automática:</strong> Diagnósticos con pronóstico limitado que requieren CPP independientemente de otros factores</li>
+                        <li><strong>Escala PedCom:</strong> Herramienta de evaluación multidimensional para casos no incluidos en la lista</li>
+                        <li><strong>Umbral 6.5 puntos:</strong> Indica alta complejidad y necesidad de soporte paliativo especializado</li>
+                        <li><strong>Reevaluación continua:</strong> La situación clínica puede cambiar, requiriendo nuevas valoraciones</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeFlowModal()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal: Escala PEDCOMP Ampliada -->
+    <div id="pedcompModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📋 Escala PEDCOMP Ampliada - Guía Completa</h2>
+                <button class="modal-close" onclick="closePedcompModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="info-box">
+                    <p><strong>Información para profesionales y familias:</strong> Esta escala evalúa la complejidad clínica en 10 dimensiones. Una puntuación ≥ 6.5 indica necesidad de Cuidados Paliativos Pediátricos.</p>
+                </div>
+                
+                <div class="pedcomp-section">
+                    <h4>1. Atención Especializada</h4>
+                    <p><strong>Evalúa:</strong> Número de especialistas implicados en el cuidado del paciente</p>
+                    <ul>
+                        <li><strong>1 punto:</strong> Menos de 4 especialidades médicas involucradas</li>
+                        <li><strong>2 puntos:</strong> 4 o más especialidades O seguimiento en Unidad de CPP</li>
+                    </ul>
+                    <p><em>Ayuda familiar: Cuente cuántos doctores especialistas diferentes atienden regularmente al niño/a</em></p>
+                </div>
+                
+                <div class="pedcomp-section">
+                    <h4>2. Medicación Crónica</h4>
+                    <p><strong>Evalúa:</strong> Cantidad y complejidad de medicamentos de uso continuo</p>
+                    <ul>
+                        <li><strong>1 punto:</strong> Menos de 5 fármacos diferentes</li>
+                        <li><strong>2 puntos:</strong> 5 o más fármacos</li>
+                        <li><strong>1 punto adicional:</strong> Infusión subcutánea (debajo de la piel)</li>
+                        <li><strong>1 punto adicional:</strong> Infusión intratecal (en líquido cefalorraquídeo)</li>
+                        <li><strong>1 punto adicional:</strong> Medicación que solo se puede administrar en hospital</li>
+                        <li><strong>2 puntos adicionales:</strong> Infusión intravenosa en domicilio</li>
+                    </ul>
+                    <p><em>Ayuda familiar: Los puntos se suman. Si el niño/a toma 5 medicinas y tiene una vía subcutánea, serían 3 puntos (2+1)</em></p>
+                </div>
+                
+                <div class="pedcomp-section">
+                    <h4>3. Dependencia Tecnológica</h4>
+                    <p><strong>Evalúa:</strong> Necesidad de dispositivos médicos de soporte</p>
+                    <ul>
+                        <li><strong>1 punto:</strong> Oxígeno suplementario</li>
+                        <li><strong>1 punto:</strong> Alimentación por sonda (enteral) o vena (parenteral)</li>
+                        <li><strong>2 puntos:</strong> Traqueostomía</li>
+                        <li><strong>2 puntos:</strong> Ventilación mecánica (respirador)</li>
+                        <li><strong>2 puntos:</strong> Diálisis</li>
+                    </ul>
+                    <p><em>Ayuda familiar: Los puntos se acumulan según los dispositivos que utilice el niño/a</em></p>
+                </div>
+                
+                <div class="pedcomp-section">
+                    <h4>4. Ingresos Hospitalarios</h4>
+                    <p><strong>Evalúa:</strong> Frecuencia de hospitalizaciones en los últimos 12 meses</p>
+                    <ul>
+                        <li><strong>1 punto:</strong> 1-2 ingresos por año</li>
+                        <li><strong>2 puntos:</strong> 3 o más ingresos por año</li>
+                        <li><strong>2 puntos:</strong> Ha requerido ingreso en UCI (Unidad de Cuidados Intensivos)</li>
+                    </ul>
+                    <p><em>Ayuda familiar: Cuente las veces que el niño/a ha sido ingresado en el hospital en el último año</em></p>
+                </div>
+                
+                <div class="pedcomp-section">
+                    <h4>5. Control de Síntomas</h4>
+                    <p><strong>Evalúa:</strong> Presencia de síntomas que requieren manejo especializado</p>
+                    <ul>
+                        <li><strong>1 punto:</strong> Dolor crónico (continuo o muy frecuente)</li>
+                        <li><strong>1 punto:</strong> Disnea (dificultad para respirar)</li>
+                        <li><strong>2 puntos:</strong> Síntomas refractarios (difíciles de controlar) o complejos</li>
+                        <li><strong>2 puntos:</strong> Múltiples síntomas simultáneos (más de 3)</li>
+                    </ul>
+                    <p><em>Ayuda familiar: Marque los síntomas que presenta el niño/a regularmente. Los puntos se suman</em></p>
+                </div>
+                
+                <div class="pedcomp-section">
+                    <h4>6. Estado Funcional</h4>
+                    <p><strong>Evalúa:</strong> Capacidad para realizar actividades diarias</p>
+                    <ul>
+                        <li><strong>1 punto:</strong> Limitación moderada (necesita algo de ayuda)</li>
+                        <li><strong>2 puntos:</strong> Limitación severa o dependencia total para actividades básicas</li>
+                    </ul>
+                    <p><em>Ayuda familiar: ¿Puede el niño/a hacer cosas por sí mismo/a o necesita ayuda para casi todo?</em></p>
+                </div>
+                
+                <div class="pedcomp-section">
+                    <h4>7. Pronóstico</h4>
+                    <p><strong>Evalúa:</strong> Expectativa de vida según criterio médico</p>
+                    <ul>
+                        <li><strong>1 punto:</strong> Pronóstico incierto (esperanza de vida mayor a 2 años)</li>
+                        <li><strong>2 puntos:</strong> Pronóstico limitado (esperanza de vida menor a 2 años)</li>
+                        <li><strong>3 puntos:</strong> Fase terminal (esperanza de vida menor a 6 meses)</li>
+                    </ul>
+                    <p><em>Esta valoración la realiza el equipo médico basándose en la evolución de la enfermedad</em></p>
+                </div>
+                
+                <div class="pedcomp-section">
+                    <h4>8. Impacto Psicosocial</h4>
+                    <p><strong>Evalúa:</strong> Afectación emocional y social del paciente y familia</p>
+                    <ul>
+                        <li><strong>1 punto:</strong> Estrés familiar significativo</li>
+                        <li><strong>1 punto:</strong> Sufrimiento emocional importante del paciente</li>
+                        <li><strong>2 puntos:</strong> Situación psicosocial compleja (problemas sociales, económicos o familiares graves)</li>
+                    </ul>
+                    <p><em>Ayuda familiar: ¿Cómo afecta la enfermedad a la vida emocional y social de la familia y el niño/a?</em></p>
+                </div>
+                
+                <div class="pedcomp-section">
+                    <h4>9. Coordinación Asistencial</h4>
+                    <p><strong>Evalúa:</strong> Complejidad en organizar y coordinar los cuidados</p>
+                    <ul>
+                        <li><strong>1 punto:</strong> Múltiples profesionales sanitarios implicados (enfermeras, médicos, terapeutas...)</li>
+                        <li><strong>2 puntos:</strong> Coordinación compleja entre hospital, atención primaria y otros servicios</li>
+                    </ul>
+                    <p><em>Ayuda familiar: ¿Es difícil organizar todas las citas y coordinarse entre los diferentes profesionales?</em></p>
+                </div>
+                
+                <div class="pedcomp-section">
+                    <h4>10. Aspectos Éticos y Toma de Decisiones</h4>
+                    <p><strong>Evalúa:</strong> Necesidad de apoyo en decisiones médicas complejas</p>
+                    <ul>
+                        <li><strong>1 punto:</strong> Decisiones terapéuticas complejas (sobre tratamientos, intervenciones...)</li>
+                        <li><strong>2 puntos:</strong> Necesidad de planificación anticipada de cuidados O conflictos éticos importantes</li>
+                    </ul>
+                    <p><em>Ayuda familiar: ¿Necesita apoyo para tomar decisiones difíciles sobre el tratamiento del niño/a?</em></p>
+                </div>
+                
+                <div style="margin-top: 30px; padding: 20px; background: linear-gradient(135deg, var(--color-professional) 0%, #33c3f0 100%); color: white; border-radius: 8px;">
+                    <h3 style="margin-bottom: 15px; color: white;">📊 Interpretación de Resultados</h3>
+                    <ul style="margin-left: 20px; line-height: 1.8;">
+                        <li><strong>≥ 6.5 puntos:</strong> Alta complejidad → Tributario de CPP (derivación recomendada)</li>
+                        <li><strong>4-6.4 puntos:</strong> Complejidad moderada → Valoración individualizada, seguimiento cercano</li>
+                        <li><strong>&lt; 4 puntos:</strong> Baja complejidad → Seguimiento habitual por especialidades</li>
+                    </ul>
+                </div>
+                
+                <table class="pedcomp-table" style="margin-top: 20px;">
+                    <thead>
+                        <tr>
+                            <th>Dimensión</th>
+                            <th>Puntuación Mínima</th>
+                            <th>Puntuación Máxima</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1. Atención Especializada</td><td>0</td><td>2</td></tr>
+                        <tr><td>2. Medicación Crónica</td><td>0</td><td>8</td></tr>
+                        <tr><td>3. Dependencia Tecnológica</td><td>0</td><td>8</td></tr>
+                        <tr><td>4. Ingresos Hospitalarios</td><td>0</td><td>4</td></tr>
+                        <tr><td>5. Control de Síntomas</td><td>0</td><td>6</td></tr>
+                        <tr><td>6. Estado Funcional</td><td>0</td><td>2</td></tr>
+                        <tr><td>7. Pronóstico</td><td>0</td><td>3</td></tr>
+                        <tr><td>8. Impacto Psicosocial</td><td>0</td><td>4</td></tr>
+                        <tr><td>9. Coordinación Asistencial</td><td>0</td><td>2</td></tr>
+                        <tr><td>10. Aspectos Éticos</td><td>0</td><td>2</td></tr>
+                        <tr style="background: var(--bg-gray); font-weight: bold;">
+                            <td>TOTAL</td><td>0</td><td>41</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closePedcompModal()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ICD-10 patterns derived from CiE-10 palis..txt.
+        // Patterns are separated by pipes and split into an array.  Patterns may be exact codes,
+        // wildcard codes ending in .* (meaning any subcode), or ranges like C00-C97.
+        const cie10Patterns = 'C00-C97|A17.*|A81.0|A81.1|B05.0|B20.*|B21.*|B22.*|B23.*|B24.*|B58.2|C.*|C08.9|C18.9|C21.2|C22.0|C22.1|C22.7|C40.0|C40.1|C40.2|C40.9|C41.4|C43.9|C47.3|C47.9|C49.0|C49.5|C49.9|C57.7|C64.9|C69.2|C71.0|C71.1|C71.2|C71.5|C71.6|C71.7|C71.9|C74.9|C75.3|C76.3|C79.3|C80.1|C84.4|C84.5|C84.9|C85.2|C91.0|C91.1|C91.3|C91.9|C92.0|C93.3|C96|D33.*|D43.*|D44.4|D48.*|D48.7|D56.1|D57.00|D57.1|D61.0|D61.9|D70.*|D76.1|D81.*|D81.1|D82.1|D82.*|D83.*|D87.8|D89.1|E23.3|E31.0|E34.8|E70.2|E71.*|E71.0|E71.1|E71.3|E71.31|E71.52|E72.*|E72.1|E72.2|E72.3|E72.5|E74.*|E74.0|E75.*|E75.02|E75.1|E75.19|E75.2|E75.23|E75.240|E75.242|E75.4|E76.*|E76.1|E76.2|E77.*|E77.1|E77.8|E79.1|E83.0|E84|E84.*|E84.0|E88.0|E88.1|E88.49|F80.3|F84.2|G04.81|G04.90|G05.3|G10.*|G11.1|G11.3|G11.9|G12.*|G12.0|G12.1|G20.*|G23.0|G23.8|G24.9|G31.8|G31.89|G31.9|G32.0|G32.8|G35.*|G37.1|G37.8|G40.9|G40.04|G40.3|G40.4|G40.5|G43.9|G47.35|G60.0|G60.1|G60.8|G62.9|G70.0|G70.2|G70.9|G71.0|G71.00|G71.01|G71.1|G71.11|G71.2|G71.3|G71.9|G80.0|G80.08|G80.1|G80.3|G80.8|G80.9|G82.3|G82.4|G82.5|G91.9|G93.1|G93.3|G93.4|G93.6|G93.7|G93.8|G95.0|G95.9|H11.1|H35.5|H49.8|I21.*|I27.0|I27.2|I42|I42.*|I42.0|I42.1|I42.9|I61.3|I67.5|I81.*|J44.8|J84.1|J96.*|J98.4|K55.0|K55.9|K72.*|K74.*|K76.5|K86.8|L94.0|M31.3|M32.1|M61.5|M89.5|N04.*|N16.4|N17.*|N18.*|N18.6|N19.*|N25.8|N99.0|P10.1|P11.2|P20.0|P20.1|P21.0|P21.9|P27.1|P28.5|P29.0|P29.3|P35.*|P35.0|P35.1|P35.8|P37.1|P52.21|P52.4|P52.5|P52.9|P83.2|P91.2|P91.6|P93.1|P94.2|P96.0|PERDIDO|Q00.0|Q01.*|Q03.1|Q03.9|Q04.0|Q04.2|Q04.3|Q04.4|Q04.6|Q04.8|Q04.9|Q07.0|Q07.03|Q07.3|Q11.2|Q20.0|Q20.3|Q20.4|Q20.6|Q20.8|Q21.0|Q21.3|Q21.8|Q22.0|Q22.1|Q22.3|Q22.4|Q22.5|Q22.6|Q23.0|Q23.2|Q23.4|Q23.9|Q24.8|Q25.4|Q25.6|Q26.2|Q26.4|Q26.8|Q28.2|Q32.1|Q33.6|Q39.6|Q39.8|Q40.0|Q41.0|Q41.9|Q43.1|Q43.7|Q43.8|Q44.2|Q44.5|Q44.7|Q60.1|Q60.6|Q61.4|Q61.9|Q64.2|Q68.8|Q72.8|Q74.3|Q74.8|Q75.0|Q76.0|Q77.2|Q77.3|Q77.4|Q78.0|Q78.5|Q79.2|Q79.3|Q80.4|Q81.*|Q81.0|Q81.1|Q82.1|Q82.4|Q85.0|Q85.1|Q85.8|Q86.0|Q87.0|Q87.1|Q87.19|Q87.2|Q87.3|Q87.8|Q91.*|Q91.3|Q91.4|Q92.0|Q92.1|Q92.4|Q92.7|Q92.8|Q93.2|Q93.3|Q93.4|Q93.5|Q93.8|Q95.2|Q99.2|Q99.8|R06.8|S06.2|T09.3|T86.0|T86.2|Z51.5|Z85.72'.split('|');
+        /**
+         * Normalize a code string: uppercase, replace comma with dot, remove spaces.
+         */
+        function normalizeCodeInput(val) {
+            return val.toUpperCase().replace(/,/g, '.').replace(/\s+/g, '');
+        }
+        /**
+         * Check if a code matches a given pattern.
+         * Patterns can be exact codes (e.g., 'G93.4'), wildcards ending in .* (meaning any subcode),
+         * or ranges like 'C00-C97'.
+         */
+        function matchesPattern(code, pattern) {
+            // Handle ranges like C00-C97
+            if (pattern.includes('-')) {
+                const [start, end] = pattern.split('-');
+                // Only consider codes that begin with the same letter as the range
+                if (code.charAt(0) !== start.charAt(0)) return false;
+                const codeNum = parseFloat(code.substring(1).split('.')[0]);
+                const startNum = parseFloat(start.substring(1));
+                const endNum = parseFloat(end.substring(1));
+                return codeNum >= startNum && codeNum <= endNum;
+            }
+            // Handle wildcard patterns ending in .* – e.g. G71.* or C.*
+            if (pattern.endsWith('.*')) {
+                // Remove the trailing .* and any trailing dot (e.g. C.* → C)
+                let prefix = pattern.slice(0, -2);
+                if (prefix.endsWith('.')) {
+                    prefix = prefix.slice(0, -1);
+                }
+                return code.startsWith(prefix);
+            }
+            // Default: exact or prefix match for explicit codes (e.g. G71.0 matches G71.01)
+            return code.startsWith(pattern);
+        }
+        /**
+         * Determine if a normalized code is in the tributary list.
+         */
+        function isCodeTributary(code) {
+            return cie10Patterns.some(pattern => matchesPattern(code, pattern));
+        }
+
+        let selectedDiagnosis = null;
+        let currentScore = 0;
+
+        // Initialize autocomplete
+        const searchInput = document.getElementById('diagnosisSearch');
+        const autocompleteList = document.getElementById('autocompleteList');
+
+        searchInput.addEventListener('input', function(e) {
+            const value = e.target.value.toLowerCase();
+            autocompleteList.innerHTML = '';
+            
+            if (value.length < 2) {
+                autocompleteList.classList.remove('active');
+                return;
+            }
+
+            // Build autocomplete matches using the pattern list.  Suggestions are based solely on the code string.
+            const matches = cie10Patterns.filter(pattern => pattern.toLowerCase().includes(value));
+            if (matches.length > 0) {
+                matches.slice(0, 10).forEach(pattern => {
+                    const div = document.createElement('div');
+                    div.className = 'autocomplete-item';
+                    div.innerHTML = `<strong>${pattern}</strong>`;
+                    div.addEventListener('click', function() {
+                        searchInput.value = pattern;
+                        selectedDiagnosis = pattern;
+                        autocompleteList.classList.remove('active');
+                    });
+                    autocompleteList.appendChild(div);
+                });
+                autocompleteList.classList.add('active');
+            } else {
+                autocompleteList.classList.remove('active');
+            }
+        });
+
+        // Close autocomplete when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !autocompleteList.contains(e.target)) {
+                autocompleteList.classList.remove('active');
+            }
+        });
+
+        function checkDiagnosis() {
+            const searchValue = searchInput.value.trim();
+            const diagnosisResult = document.getElementById('diagnosisResult');
+            
+            if (!searchValue) {
+                alert('Por favor, ingrese un diagnóstico o código CIE-10');
+                return;
+            }
+
+            // Normalize and check if diagnosis code matches any tributary pattern
+            const searchCode = normalizeCodeInput(searchValue.split('-')[0]);
+            const isTributary = isCodeTributary(searchCode);
+
+            diagnosisResult.classList.remove('hidden');
+
+            if (isTributary) {
+                diagnosisResult.innerHTML = `
+                    <div class="result-card result-tributary">
+                        <div class="result-title" style="color: var(--color-hope);">✓ Paciente Tributario de CPP</div>
+                        <div class="result-text">
+                            <p><strong>Diagnóstico identificado:</strong> ${searchValue}</p>
+                            <p>El código CIE-10 coincide con la lista de diagnósticos tributarios de Cuidados Paliativos Pediátricos.</p>
+                            <p><strong>Recomendación:</strong> Este paciente debe ser derivado a la Unidad de Cuidados Paliativos Pediátricos para evaluación y seguimiento especializado.</p>
+                        </div>
+                    </div>
+                `;
+                showFinalResult(true, searchValue, null);
+            } else {
+                diagnosisResult.innerHTML = `
+                    <div class="result-card result-pending">
+                        <div class="result-title" style="color: var(--color-energy);">⚠ Evaluación de Complejidad Necesaria</div>
+                        <div class="result-text">
+                            <p><strong>Diagnóstico buscado:</strong> ${searchValue}</p>
+                            <p>El código no está en la lista de tributarios automáticos. Se requiere evaluación mediante la escala PedCom expandida.</p>
+                            <p><strong>Siguiente paso:</strong> Complete la escala de complejidad clínica a continuación.</p>
+                        </div>
+                    </div>
+                `;
+                // Show PedCom card
+                document.getElementById('pedcomCard').classList.remove('hidden');
+                document.getElementById('pedcomCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function calculateScore() {
+            let total = 0;
+            
+            // Get all checked checkboxes
+            const checkboxes = document.querySelectorAll('#pedcomForm input[type="checkbox"]:checked');
+            checkboxes.forEach(cb => {
+                total += parseFloat(cb.value);
+            });
+
+            currentScore = total;
+            document.getElementById('totalScore').textContent = total.toFixed(1);
+
+            // Update score display color based on score
+            const scoreDisplay = document.querySelector('.score-display');
+            if (total >= 6.5) {
+                scoreDisplay.style.background = 'linear-gradient(135deg, var(--color-hope) 0%, #7ab82e 100%)';
+            } else if (total >= 4) {
+                scoreDisplay.style.background = 'linear-gradient(135deg, var(--color-energy) 0%, #e6880a 100%)';
+            } else {
+                scoreDisplay.style.background = 'linear-gradient(135deg, var(--color-professional) 0%, #33c3f0 100%)';
+            }
+        }
+
+        function evaluateComplexity() {
+            const complexityResult = document.getElementById('complexityResult');
+            const score = currentScore;
+
+            let complexityLevel = '';
+            let complexityClass = '';
+            let isTributary = false;
+
+            if (score >= 6.5) {
+                complexityLevel = 'Alta Complejidad';
+                complexityClass = 'complexity-high';
+                isTributary = true;
+            } else if (score >= 4) {
+                complexityLevel = 'Complejidad Moderada';
+                complexityClass = 'complexity-medium';
+            } else {
+                complexityLevel = 'Baja Complejidad';
+                complexityClass = 'complexity-low';
+            }
+
+            complexityResult.classList.remove('hidden');
+            
+            if (isTributary) {
+                complexityResult.innerHTML = `
+                    <div class="result-card result-tributary">
+                        <div class="result-title" style="color: var(--color-hope);">✓ Paciente Tributario de CPP</div>
+                        <div class="result-text">
+                            <p><strong>Puntuación PedCom:</strong> ${score.toFixed(1)} puntos</p>
+                            <p><span class="complexity-level ${complexityClass}">${complexityLevel}</span></p>
+                            <p>La puntuación alcanza el umbral de ≥6.5 puntos, indicando necesidad de Cuidados Paliativos Pediátricos.</p>
+                            <p><strong>Recomendación:</strong> Derivar a Unidad de CPP para valoración especializada y planificación de cuidados.</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                complexityResult.innerHTML = `
+                    <div class="result-card result-non-tributary">
+                        <div class="result-title" style="color: var(--color-energy);">✗ No Tributario de CPP</div>
+                        <div class="result-text">
+                            <p><strong>Puntuación PedCom:</strong> ${score.toFixed(1)} puntos</p>
+                            <p><span class="complexity-level ${complexityClass}">${complexityLevel}</span></p>
+                            <p>La puntuación no alcanza el umbral de 6.5 puntos necesario para CPP.</p>
+                            <p><strong>Recomendación:</strong> Continuar seguimiento por especialidades actuales. Reevaluar si hay cambios en la situación clínica.</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            showFinalResult(isTributary, searchInput.value, score);
+        }
+
+        function showFinalResult(isTributary, diagnosis, score) {
+            const finalCard = document.getElementById('finalResultCard');
+            const finalContent = document.getElementById('finalResultContent');
+            
+            finalCard.classList.remove('hidden');
+
+            const criteriaList = [];
+            document.querySelectorAll('#pedcomForm input[type="checkbox"]:checked').forEach(cb => {
+                criteriaList.push(cb.parentElement.textContent.trim());
+            });
+
+            let resultHtml = `
+                <div class="result-card ${isTributary ? 'result-tributary' : 'result-non-tributary'}">
+                    <div class="result-title" style="color: ${isTributary ? 'var(--color-hope)' : 'var(--color-energy)'}">
+                        ${isTributary ? '✓ TRIBUTARIO DE CUIDADOS PALIATIVOS PEDIÁTRICOS' : '✗ NO TRIBUTARIO DE CPP'}
+                    </div>
+                    <div class="result-text">
+                        <p><strong>Diagnóstico evaluado:</strong> ${diagnosis || 'Sin especificar'}</p>
+            `;
+
+            if (score !== null) {
+                resultHtml += `
+                    <p><strong>Puntuación PedCom Expandida:</strong> ${score.toFixed(1)} puntos</p>
+                    <p><strong>Criterios seleccionados:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        ${criteriaList.map(c => `<li>${c}</li>`).join('')}
+                    </ul>
+                `;
+            }
+
+            resultHtml += `
+                        <hr style="margin: 20px 0; border: none; border-top: 1px solid var(--border-color);">
+                        <p><strong>Recomendaciones:</strong></p>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+            `;
+
+            if (isTributary) {
+                resultHtml += `
+                    <li>Derivación inmediata a Unidad de Cuidados Paliativos Pediátricos</li>
+                    <li>Evaluación integral por equipo multidisciplinar especializado</li>
+                    <li>Planificación anticipada de cuidados con familia</li>
+                    <li>Establecer plan de control de síntomas</li>
+                    <li>Valoración de necesidades psicosociales del paciente y familia</li>
+                    <li>Coordinación con atención primaria y especialidades implicadas</li>
+                `;
+            } else {
+                resultHtml += `
+                    <li>Continuar seguimiento por especialidades actuales</li>
+                    <li>Reevaluación periódica de la situación clínica</li>
+                    <li>Nueva valoración si hay deterioro clínico significativo</li>
+                    <li>Mantener control de síntomas según protocolo habitual</li>
+                    <li>Considerar derivación si aumenta la complejidad</li>
+                `;
+            }
+
+            resultHtml += `
+                        </ul>
+                    </div>
+                </div>
+            `;
+
+            finalContent.innerHTML = resultHtml;
+            finalCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function resetForm() {
+            document.getElementById('pedcomForm').reset();
+            currentScore = 0;
+            document.getElementById('totalScore').textContent = '0.0';
+            document.getElementById('complexityResult').classList.add('hidden');
+            const scoreDisplay = document.querySelector('.score-display');
+            scoreDisplay.style.background = 'linear-gradient(135deg, var(--primary-blue) 0%, var(--light-blue) 100%)';
+        }
+
+        function resetAll() {
+            searchInput.value = '';
+            selectedDiagnosis = null;
+            document.getElementById('diagnosisResult').classList.add('hidden');
+            document.getElementById('pedcomCard').classList.add('hidden');
+            document.getElementById('finalResultCard').classList.add('hidden');
+            resetForm();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function downloadReport() {
+            const diagnosis = searchInput.value || 'Sin especificar';
+            const isTributary = currentScore >= 6.5 || document.querySelector('.result-tributary') !== null;
+            const date = new Date().toLocaleDateString('es-ES');
+            const time = new Date().toLocaleTimeString('es-ES');
+
+            // Build comprehensive report
+            let reportContent = '';
+            reportContent += '╔════════════════════════════════════════════════════════════════════╗\n';
+            reportContent += '║     INFORME DE EVALUACIÓN - CUIDADOS PALIATIVOS PEDIÁTRICOS      ║\n';
+            reportContent += '║                          Dashboard CPP                             ║\n';
+            reportContent += '╚════════════════════════════════════════════════════════════════════╝\n\n';
+            
+            reportContent += `Fecha de generación: ${date} - ${time}\n`;
+            reportContent += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
+            
+            // Section 1: Diagnosis
+            reportContent += '┌─ DATOS DEL DIAGNÓSTICO ─────────────────────────────────────────┐\n';
+            reportContent += `│ Diagnóstico evaluado: ${diagnosis}\n`;
+            
+            // Check if it's in the tributary list
+            const searchCode = diagnosis.split('-')[0].trim().toUpperCase();
+            const matchedCode = cie10Codes.find(item => 
+                searchCode.includes(item.code) || item.code.includes(searchCode)
+            );
+            
+            if (matchedCode) {
+                reportContent += `│ Código CIE-10: ${matchedCode.code}\n`;
+                reportContent += `│ Descripción: ${matchedCode.name}\n`;
+                reportContent += '│ En lista tributaria: SÍ ✓\n';
+            } else {
+                reportContent += '│ En lista tributaria: NO\n';
+            }
+            reportContent += '└─────────────────────────────────────────────────────────────────┘\n\n';
+            
+            // Section 2: PedCom Score (if applicable)
+            if (currentScore > 0) {
+                reportContent += '┌─ EVALUACIÓN ESCALA PEDCOMP EXPANDIDA ──────────────────────────┐\n';
+                reportContent += `│ PUNTUACIÓN TOTAL: ${currentScore.toFixed(1)} puntos\n`;
+                reportContent += '│ Umbral de tributación CPP: ≥ 6.5 puntos\n';
+                reportContent += '│\n';
+                
+                // Get detailed breakdown by category
+                const categories = [
+                    { name: 'Atención Especializada', checkboxes: 'specialized' },
+                    { name: 'Medicación Crónica', checkboxes: 'medication' },
+                    { name: 'Dependencia Tecnológica', checkboxes: 'technology' },
+                    { name: 'Ingresos Hospitalarios', checkboxes: 'hospital' },
+                    { name: 'Control de Síntomas', checkboxes: 'symptoms' },
+                    { name: 'Estado Funcional', checkboxes: 'functional' },
+                    { name: 'Pronóstico', checkboxes: 'prognosis' },
+                    { name: 'Impacto Psicosocial', checkboxes: 'psychosocial' },
+                    { name: 'Coordinación Asistencial', checkboxes: 'coordination' },
+                    { name: 'Aspectos Éticos', checkboxes: 'ethical' }
+                ];
+                
+                reportContent += '│ DESGLOSE POR CATEGORÍAS:\n';
+                reportContent += '│ ───────────────────────────────────────────────────────────────\n';
+                
+                categories.forEach((cat, index) => {
+                    const categoryCheckboxes = document.querySelectorAll(`#pedcomForm input[name="${cat.checkboxes}"]:checked`);
+                    let categoryScore = 0;
+                    const items = [];
+                    
+                    categoryCheckboxes.forEach(cb => {
+                        categoryScore += parseFloat(cb.value);
+                        items.push(cb.parentElement.textContent.trim());
+                    });
+                    
+                    reportContent += `│ ${index + 1}. ${cat.name}\n`;
+                    if (categoryScore > 0) {
+                        reportContent += `│    Puntuación: ${categoryScore.toFixed(1)} puntos\n`;
+                        items.forEach(item => {
+                            reportContent += `│    • ${item}\n`;
+                        });
+                    } else {
+                        reportContent += '│    Sin criterios seleccionados\n';
+                    }
+                    reportContent += '│\n';
+                });
+                
+                reportContent += '└─────────────────────────────────────────────────────────────────┘\n\n';
+            }
+            
+            // Section 3: Result
+            reportContent += '┌─ RESULTADO DE LA EVALUACIÓN ────────────────────────────────────┐\n';
+            reportContent += '│\n';
+            if (isTributary) {
+                reportContent += '│  ✓ PACIENTE TRIBUTARIO DE CUIDADOS PALIATIVOS PEDIÁTRICOS\n';
+                reportContent += '│\n';
+                reportContent += '│  El paciente cumple criterios para ser derivado a la Unidad de\n';
+                reportContent += '│  Cuidados Paliativos Pediátricos para valoración y seguimiento\n';
+                reportContent += '│  especializado.\n';
+            } else {
+                reportContent += '│  ✗ PACIENTE NO TRIBUTARIO DE CPP EN ESTE MOMENTO\n';
+                reportContent += '│\n';
+                reportContent += '│  El paciente NO cumple criterios actuales de tributación.\n';
+                reportContent += '│  Se recomienda seguimiento habitual y reevaluación periódica.\n';
+            }
+            reportContent += '│\n';
+            reportContent += '└─────────────────────────────────────────────────────────────────┘\n\n';
+            
+            // Section 4: Recommendations
+            reportContent += '┌─ RECOMENDACIONES CLÍNICAS ──────────────────────────────────────┐\n';
+            if (isTributary) {
+                reportContent += '│\n';
+                reportContent += '│ ▸ Derivación PRIORITARIA a Unidad de CPP\n';
+                reportContent += '│   Contactar con la unidad de referencia para evaluación\n';
+                reportContent += '│   integral por equipo multidisciplinar especializado.\n';
+                reportContent += '│\n';
+                reportContent += '│ ▸ Planificación Anticipada de Cuidados\n';
+                reportContent += '│   Iniciar conversaciones sobre objetivos terapéuticos y\n';
+                reportContent += '│   preferencias de cuidados con paciente y familia.\n';
+                reportContent += '│\n';
+                reportContent += '│ ▸ Control de Síntomas\n';
+                reportContent += '│   Establecer plan de manejo de síntomas con enfoque paliativo.\n';
+                reportContent += '│   Considerar medicación sintomática y confort del paciente.\n';
+                reportContent += '│\n';
+                reportContent += '│ ▸ Soporte Psicosocial\n';
+                reportContent += '│   Valorar necesidades emocionales, sociales y espirituales\n';
+                reportContent += '│   del paciente y familia. Derivar a psicología/trabajo social.\n';
+                reportContent += '│\n';
+                reportContent += '│ ▸ Coordinación Asistencial\n';
+                reportContent += '│   Establecer plan de coordinación entre CPP, especialidades,\n';
+                reportContent += '│   atención primaria y otros servicios implicados.\n';
+                reportContent += '│\n';
+                reportContent += '│ ▸ Seguimiento Estrecho\n';
+                reportContent += '│   Monitorizar evolución clínica y ajustar intervenciones\n';
+                reportContent += '│   según necesidades cambiantes del paciente.\n';
+            } else {
+                reportContent += '│\n';
+                reportContent += '│ ▸ Seguimiento Habitual\n';
+                reportContent += '│   Continuar con el plan de cuidados actual por las\n';
+                reportContent += '│   especialidades correspondientes.\n';
+                reportContent += '│\n';
+                reportContent += '│ ▸ Reevaluación Periódica\n';
+                reportContent += '│   Valorar nuevamente la situación clínica si hay cambios\n';
+                reportContent += '│   significativos en el estado del paciente.\n';
+                reportContent += '│\n';
+                reportContent += '│ ▸ Monitorización de Complejidad\n';
+                reportContent += '│   Estar atento a signos de aumento de complejidad clínica:\n';
+                reportContent += '│   - Aumento de ingresos hospitalarios\n';
+                reportContent += '│   - Síntomas difíciles de controlar\n';
+                reportContent += '│   - Mayor dependencia tecnológica\n';
+                reportContent += '│   - Deterioro funcional progresivo\n';
+                reportContent += '│\n';
+                reportContent += '│ ▸ Control de Síntomas\n';
+                reportContent += '│   Mantener estrategias habituales de control sintomático\n';
+                reportContent += '│   según protocolos de cada especialidad.\n';
+                reportContent += '│\n';
+                reportContent += '│ ▸ Considerar Derivación Futura\n';
+                reportContent += '│   Si la puntuación PEDCOMP aumenta o aparecen nuevos criterios\n';
+                reportContent += '│   de complejidad, reevaluar necesidad de derivación a CPP.\n';
+            }
+            reportContent += '│\n';
+            reportContent += '└─────────────────────────────────────────────────────────────────┘\n\n';
+            
+            // Footer
+            reportContent += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
+            reportContent += '                         INFORMACIÓN IMPORTANTE                         \n';
+            reportContent += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
+            reportContent += 'Este informe ha sido generado automáticamente por el Dashboard CPP\n';
+            reportContent += 'como herramienta de apoyo a la decisión clínica.\n\n';
+            reportContent += 'IMPORTANTE: Este informe NO sustituye la valoración clínica\n';
+            reportContent += 'individualizada por profesionales especializados. La decisión final\n';
+            reportContent += 'sobre la tributación a CPP debe ser tomada por el equipo médico\n';
+            reportContent += 'considerando todos los aspectos clínicos, familiares y contextuales.\n\n';
+            reportContent += '═══════════════════════════════════════════════════════════════════\n';
+            reportContent += '            Dashboard CPP - Cuidados Paliativos Pediátricos          \n';
+            reportContent += '                    Paleta PEDPAL | Humanización + Profesionalidad   \n';
+            reportContent += '═══════════════════════════════════════════════════════════════════\n';
+
+            // Create and download file
+            const blob = new Blob([reportContent], { type: 'text/plain;charset=utf-8' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            const fileName = `Informe_CPP_${date.replace(/\//g, '-')}_${time.replace(/:/g, '-')}.txt`;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            // Show confirmation notification
+            showDownloadConfirmation(fileName);
+        }
+        
+        function showDownloadConfirmation(fileName) {
+            // Create confirmation overlay
+            const overlay = document.createElement('div');
+            overlay.id = 'downloadConfirmation';
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 3000;
+                animation: fadeIn 0.3s;
+            `;
+            
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                background: white;
+                padding: 30px 40px;
+                border-radius: 12px;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+                text-align: center;
+                max-width: 500px;
+                margin: 20px;
+                animation: slideUp 0.3s;
+            `;
+            
+            notification.innerHTML = `
+                <div style="width: 80px; height: 80px; margin: 0 auto 20px; background: var(--color-hope); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px;">
+                    ✓
+                </div>
+                <h3 style="color: var(--color-professional); margin-bottom: 15px; font-size: 22px;">¡Informe Descargado Correctamente!</h3>
+                <p style="color: var(--text-dark); margin-bottom: 10px; line-height: 1.6;">
+                    El informe personalizado se ha generado y descargado exitosamente.
+                </p>
+                <p style="color: var(--text-light); font-size: 14px; margin-bottom: 20px;">
+                    <strong>Archivo:</strong> ${fileName}
+                </p>
+                <button onclick="closeDownloadConfirmation()" class="btn btn-primary" style="margin-top: 10px;">
+                    Cerrar
+                </button>
+            `;
+            
+            overlay.appendChild(notification);
+            document.body.appendChild(overlay);
+            
+            // Auto-close after 5 seconds
+            setTimeout(() => {
+                closeDownloadConfirmation();
+            }, 5000);
+        }
+        
+        function closeDownloadConfirmation() {
+            const overlay = document.getElementById('downloadConfirmation');
+            if (overlay) {
+                overlay.style.animation = 'fadeOut 0.3s';
+                setTimeout(() => {
+                    overlay.remove();
+                }, 300);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Dashboard CPP cargado correctamente con paleta PEDPAL');
+        });
+        
+        // Modal Functions
+        function openFlowModal() {
+            document.getElementById('flowModal').classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+        
+        function closeFlowModal() {
+            document.getElementById('flowModal').classList.remove('active');
+            document.body.style.overflow = ''; // Restore scrolling
+        }
+        
+        function openPedcompModal() {
+            document.getElementById('pedcompModal').classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+        
+        function closePedcompModal() {
+            document.getElementById('pedcompModal').classList.remove('active');
+            document.body.style.overflow = ''; // Restore scrolling
+        }
+        
+        // Close modal when clicking outside the modal content
+        window.addEventListener('click', function(e) {
+            const flowModal = document.getElementById('flowModal');
+            const pedcompModal = document.getElementById('pedcompModal');
+            
+            if (e.target === flowModal) {
+                closeFlowModal();
+            }
+            if (e.target === pedcompModal) {
+                closePedcompModal();
+            }
+        });
+        
+        // Keyboard shortcuts for modals
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeFlowModal();
+                closePedcompModal();
+            }
+        });
+        // Override downloadReport: generate a printable HTML report and invoke browser print dialog.
+        function downloadReport() {
+            const diagnosis = searchInput.value.trim() || 'Sin especificar';
+            const codePart = normalizeCodeInput(diagnosis.split('-')[0]);
+            const tributaryByDiagnosis = isCodeTributary(codePart);
+            const isTributary = tributaryByDiagnosis || currentScore >= 6.5;
+            const date = new Date().toLocaleDateString('es-ES');
+            const time = new Date().toLocaleTimeString('es-ES');
+            const criteriaList = [];
+            document.querySelectorAll('#pedcomForm input[type="checkbox"]:checked').forEach(cb => {
+                criteriaList.push(cb.parentElement.textContent.trim());
+            });
+            let complexityLevel = '';
+            if (currentScore >= 6.5) {
+                complexityLevel = 'Alta Complejidad';
+            } else if (currentScore >= 4) {
+                complexityLevel = 'Complejidad Moderada';
+            } else if (currentScore > 0) {
+                complexityLevel = 'Baja Complejidad';
+            }
+            const reportHtml = `
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Informe de Evaluación CPP</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 20px; color: #333; }
+                        h1 { color: #006699; margin-top: 0; }
+                        h2 { margin-top: 20px; color: #333; }
+                        ul { margin-left: 20px; }
+                    </style>
+                </head>
+                <body>
+                    <h1>Informe de Evaluación CPP</h1>
+                    <p><strong>Fecha:</strong> ${date} ${time}</p>
+                    <h2>Datos del Diagnóstico</h2>
+                    <p><strong>Diagnóstico evaluado:</strong> ${diagnosis}</p>
+                    <p><strong>Tributario según diagnóstico:</strong> ${tributaryByDiagnosis ? 'Sí' : 'No'}</p>
+                    ${currentScore > 0 ? `
+                    <h2>Escala PEDCOMP Ampliada</h2>
+                    <p><strong>Puntuación total:</strong> ${currentScore.toFixed(1)} puntos</p>
+                    <p><strong>Complejidad:</strong> ${complexityLevel || 'No evaluada'}</p>
+                    ${criteriaList.length > 0 ? `<p><strong>Criterios seleccionados:</strong></p><ul>${criteriaList.map(c => '<li>' + c + '</li>').join('')}</ul>` : ''}
+                    ` : ''}
+                    <h2>Conclusión</h2>
+                    ${isTributary ? `
+                        <p>El paciente es tributario de Cuidados Paliativos Pediátricos.</p>
+                        <ul>
+                            <li>Derivación inmediata a Unidad de Cuidados Paliativos Pediátricos.</li>
+                            <li>Evaluación integral por equipo multidisciplinar especializado.</li>
+                            <li>Planificación anticipada de cuidados con familia.</li>
+                            <li>Establecer plan de control de síntomas.</li>
+                            <li>Valoración de necesidades psicosociales del paciente y familia.</li>
+                            <li>Coordinación con atención primaria y especialidades implicadas.</li>
+                        </ul>
+                    ` : `
+                        <p>El paciente no es tributario de Cuidados Paliativos Pediátricos.</p>
+                        <ul>
+                            <li>Continuar seguimiento por especialidades actuales.</li>
+                            <li>Reevaluación periódica de la situación clínica.</li>
+                            <li>Nueva valoración si hay deterioro clínico significativo.</li>
+                            <li>Mantener control de síntomas según protocolo habitual.</li>
+                            <li>Considerar derivación si aumenta la complejidad.</li>
+                        </ul>
+                    `}
+                </body>
+                </html>
+            `;
+            const reportWindow = window.open('', '', 'width=900,height=700');
+            reportWindow.document.write(reportHtml);
+            reportWindow.document.close();
+            // Wait until the new window has loaded content before printing.  Using onload ensures the print dialog appears reliably.
+            reportWindow.onload = function() {
+                reportWindow.focus();
+                reportWindow.print();
+            };
+        }
+    </script>
+    
+    <!-- License footer -->
+    <footer style="text-align:center;padding:18px 12px;font-size:13px;color:var(--text-light);border-top:1px solid var(--border-color);margin-top:30px;">
+        <a href="https://example.com" style="color:inherit;text-decoration:underline;">Identificador Necesidades Paliativas Pediátricas</a>
+        © 2025 by
+        <a href="https://example.com" style="color:inherit;text-decoration:underline;">Alvaro Navarro Mingorance</a>
+        is licensed under
+        <a href="https://creativecommons.org/licenses/by-nc/4.0/" style="color:inherit;text-decoration:underline;">Creative Commons Attribution-NonCommercial 4.0 International</a>
+        <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width:1em;max-height:1em;margin-left:.2em;">
+        <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width:1em;max-height:1em;margin-left:.2em;">
+        <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" style="max-width:1em;max-height:1em;margin-left:.2em;">
+    </footer>
+</body>
+
+</html>

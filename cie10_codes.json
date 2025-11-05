@@ -1,0 +1,1406 @@
+[
+  {
+    "code": "C00-C97",
+    "name": "Tumores malignos (todos)"
+  },
+  {
+    "code": "A17.*",
+    "name": ""
+  },
+  {
+    "code": "A81.0",
+    "name": "Enfermedad de Creutzfeldt-Jakob"
+  },
+  {
+    "code": "A81.1",
+    "name": "Panencefalitis esclerosante subaguda"
+  },
+  {
+    "code": "B05.0",
+    "name": "Sarampión complicado con encefalitis"
+  },
+  {
+    "code": "B20.*",
+    "name": ""
+  },
+  {
+    "code": "B21.*",
+    "name": ""
+  },
+  {
+    "code": "B22.*",
+    "name": ""
+  },
+  {
+    "code": "B23.*",
+    "name": ""
+  },
+  {
+    "code": "B24.*",
+    "name": ""
+  },
+  {
+    "code": "B58.2",
+    "name": ""
+  },
+  {
+    "code": "C.*",
+    "name": ""
+  },
+  {
+    "code": "C08.9",
+    "name": ""
+  },
+  {
+    "code": "C18.9",
+    "name": ""
+  },
+  {
+    "code": "C21.2",
+    "name": ""
+  },
+  {
+    "code": "C22.0",
+    "name": ""
+  },
+  {
+    "code": "C22.1",
+    "name": ""
+  },
+  {
+    "code": "C22.7",
+    "name": ""
+  },
+  {
+    "code": "C40.0",
+    "name": ""
+  },
+  {
+    "code": "C40.1",
+    "name": ""
+  },
+  {
+    "code": "C40.2",
+    "name": ""
+  },
+  {
+    "code": "C40.9",
+    "name": ""
+  },
+  {
+    "code": "C41.4",
+    "name": ""
+  },
+  {
+    "code": "C43.9",
+    "name": ""
+  },
+  {
+    "code": "C47.3",
+    "name": ""
+  },
+  {
+    "code": "C47.9",
+    "name": ""
+  },
+  {
+    "code": "C49.0",
+    "name": ""
+  },
+  {
+    "code": "C49.5",
+    "name": ""
+  },
+  {
+    "code": "C49.9",
+    "name": ""
+  },
+  {
+    "code": "C57.7",
+    "name": ""
+  },
+  {
+    "code": "C64.9",
+    "name": ""
+  },
+  {
+    "code": "C69.2",
+    "name": ""
+  },
+  {
+    "code": "C71.0",
+    "name": ""
+  },
+  {
+    "code": "C71.1",
+    "name": ""
+  },
+  {
+    "code": "C71.2",
+    "name": ""
+  },
+  {
+    "code": "C71.5",
+    "name": ""
+  },
+  {
+    "code": "C71.6",
+    "name": ""
+  },
+  {
+    "code": "C71.7",
+    "name": ""
+  },
+  {
+    "code": "C71.9",
+    "name": "Tumor cerebral maligno"
+  },
+  {
+    "code": "C74.9",
+    "name": ""
+  },
+  {
+    "code": "C75.3",
+    "name": ""
+  },
+  {
+    "code": "C76.3",
+    "name": ""
+  },
+  {
+    "code": "C79.3",
+    "name": ""
+  },
+  {
+    "code": "C80.1",
+    "name": ""
+  },
+  {
+    "code": "C84.4",
+    "name": ""
+  },
+  {
+    "code": "C84.5",
+    "name": ""
+  },
+  {
+    "code": "C84.9",
+    "name": ""
+  },
+  {
+    "code": "C85.2",
+    "name": ""
+  },
+  {
+    "code": "C91.0",
+    "name": ""
+  },
+  {
+    "code": "C91.1",
+    "name": ""
+  },
+  {
+    "code": "C91.3",
+    "name": ""
+  },
+  {
+    "code": "C91.9",
+    "name": ""
+  },
+  {
+    "code": "C92.0",
+    "name": ""
+  },
+  {
+    "code": "C93.3",
+    "name": ""
+  },
+  {
+    "code": "C96",
+    "name": ""
+  },
+  {
+    "code": "D33.*",
+    "name": ""
+  },
+  {
+    "code": "D43.*",
+    "name": ""
+  },
+  {
+    "code": "D44.4",
+    "name": ""
+  },
+  {
+    "code": "D48.*",
+    "name": ""
+  },
+  {
+    "code": "D48.7",
+    "name": ""
+  },
+  {
+    "code": "D56.1",
+    "name": ""
+  },
+  {
+    "code": "D57.00",
+    "name": ""
+  },
+  {
+    "code": "D57.1",
+    "name": ""
+  },
+  {
+    "code": "D61.0",
+    "name": ""
+  },
+  {
+    "code": "D61.9",
+    "name": ""
+  },
+  {
+    "code": "D70.*",
+    "name": ""
+  },
+  {
+    "code": "D76.1",
+    "name": ""
+  },
+  {
+    "code": "D81.*",
+    "name": ""
+  },
+  {
+    "code": "D81.1",
+    "name": ""
+  },
+  {
+    "code": "D82.1",
+    "name": ""
+  },
+  {
+    "code": "D82.*",
+    "name": ""
+  },
+  {
+    "code": "D83.*",
+    "name": ""
+  },
+  {
+    "code": "D87.8",
+    "name": ""
+  },
+  {
+    "code": "D89.1",
+    "name": ""
+  },
+  {
+    "code": "E23.3",
+    "name": ""
+  },
+  {
+    "code": "E31.0",
+    "name": ""
+  },
+  {
+    "code": "E34.8",
+    "name": ""
+  },
+  {
+    "code": "E70.2",
+    "name": ""
+  },
+  {
+    "code": "E71.*",
+    "name": ""
+  },
+  {
+    "code": "E71.0",
+    "name": ""
+  },
+  {
+    "code": "E71.1",
+    "name": ""
+  },
+  {
+    "code": "E71.3",
+    "name": "Trastornos del metabolismo de ácidos grasos"
+  },
+  {
+    "code": "E71.31",
+    "name": ""
+  },
+  {
+    "code": "E71.52",
+    "name": ""
+  },
+  {
+    "code": "E72.*",
+    "name": ""
+  },
+  {
+    "code": "E72.1",
+    "name": ""
+  },
+  {
+    "code": "E72.2",
+    "name": ""
+  },
+  {
+    "code": "E72.3",
+    "name": ""
+  },
+  {
+    "code": "E72.5",
+    "name": ""
+  },
+  {
+    "code": "E74.*",
+    "name": ""
+  },
+  {
+    "code": "E74.0",
+    "name": ""
+  },
+  {
+    "code": "E75.*",
+    "name": ""
+  },
+  {
+    "code": "E75.02",
+    "name": ""
+  },
+  {
+    "code": "E75.1",
+    "name": "Enfermedad de Gaucher"
+  },
+  {
+    "code": "E75.19",
+    "name": ""
+  },
+  {
+    "code": "E75.2",
+    "name": "Enfermedad de Niemann-Pick"
+  },
+  {
+    "code": "E75.23",
+    "name": ""
+  },
+  {
+    "code": "E75.240",
+    "name": ""
+  },
+  {
+    "code": "E75.242",
+    "name": ""
+  },
+  {
+    "code": "E75.4",
+    "name": ""
+  },
+  {
+    "code": "E76.*",
+    "name": ""
+  },
+  {
+    "code": "E76.1",
+    "name": ""
+  },
+  {
+    "code": "E76.2",
+    "name": ""
+  },
+  {
+    "code": "E77.*",
+    "name": ""
+  },
+  {
+    "code": "E77.1",
+    "name": ""
+  },
+  {
+    "code": "E77.8",
+    "name": ""
+  },
+  {
+    "code": "E79.1",
+    "name": ""
+  },
+  {
+    "code": "E83.0",
+    "name": ""
+  },
+  {
+    "code": "E84",
+    "name": "Fibrosis quística"
+  },
+  {
+    "code": "E84.*",
+    "name": ""
+  },
+  {
+    "code": "E84.0",
+    "name": ""
+  },
+  {
+    "code": "E88.0",
+    "name": ""
+  },
+  {
+    "code": "E88.1",
+    "name": ""
+  },
+  {
+    "code": "E88.49",
+    "name": ""
+  },
+  {
+    "code": "F80.3",
+    "name": ""
+  },
+  {
+    "code": "F84.2",
+    "name": ""
+  },
+  {
+    "code": "G04.81",
+    "name": ""
+  },
+  {
+    "code": "G04.90",
+    "name": ""
+  },
+  {
+    "code": "G05.3",
+    "name": ""
+  },
+  {
+    "code": "G10.*",
+    "name": ""
+  },
+  {
+    "code": "G11.1",
+    "name": ""
+  },
+  {
+    "code": "G11.3",
+    "name": ""
+  },
+  {
+    "code": "G11.9",
+    "name": ""
+  },
+  {
+    "code": "G12.*",
+    "name": ""
+  },
+  {
+    "code": "G12.0",
+    "name": "Atrofia muscular espinal infantil tipo I (Werdnig-Hoffmann)"
+  },
+  {
+    "code": "G12.1",
+    "name": "Atrofia muscular espinal tipo II"
+  },
+  {
+    "code": "G20.*",
+    "name": ""
+  },
+  {
+    "code": "G23.0",
+    "name": ""
+  },
+  {
+    "code": "G23.8",
+    "name": "Degeneración del sistema nervioso"
+  },
+  {
+    "code": "G24.9",
+    "name": ""
+  },
+  {
+    "code": "G31.8",
+    "name": "Enfermedades degenerativas del sistema nervioso"
+  },
+  {
+    "code": "G31.89",
+    "name": ""
+  },
+  {
+    "code": "G31.9",
+    "name": ""
+  },
+  {
+    "code": "G32.0",
+    "name": ""
+  },
+  {
+    "code": "G32.8",
+    "name": ""
+  },
+  {
+    "code": "G35.*",
+    "name": ""
+  },
+  {
+    "code": "G37.1",
+    "name": ""
+  },
+  {
+    "code": "G37.8",
+    "name": ""
+  },
+  {
+    "code": "G40.9",
+    "name": ""
+  },
+  {
+    "code": "G40.04",
+    "name": ""
+  },
+  {
+    "code": "G40.3",
+    "name": ""
+  },
+  {
+    "code": "G40.4",
+    "name": ""
+  },
+  {
+    "code": "G40.5",
+    "name": ""
+  },
+  {
+    "code": "G43.9",
+    "name": ""
+  },
+  {
+    "code": "G47.35",
+    "name": ""
+  },
+  {
+    "code": "G60.0",
+    "name": ""
+  },
+  {
+    "code": "G60.1",
+    "name": ""
+  },
+  {
+    "code": "G60.8",
+    "name": ""
+  },
+  {
+    "code": "G62.9",
+    "name": ""
+  },
+  {
+    "code": "G70.0",
+    "name": ""
+  },
+  {
+    "code": "G70.2",
+    "name": ""
+  },
+  {
+    "code": "G70.9",
+    "name": ""
+  },
+  {
+    "code": "G71.0",
+    "name": "Distrofia muscular"
+  },
+  {
+    "code": "G71.00",
+    "name": ""
+  },
+  {
+    "code": "G71.01",
+    "name": ""
+  },
+  {
+    "code": "G71.1",
+    "name": ""
+  },
+  {
+    "code": "G71.11",
+    "name": ""
+  },
+  {
+    "code": "G71.2",
+    "name": "Miopatías congénitas"
+  },
+  {
+    "code": "G71.3",
+    "name": ""
+  },
+  {
+    "code": "G71.9",
+    "name": ""
+  },
+  {
+    "code": "G80.0",
+    "name": ""
+  },
+  {
+    "code": "G80.08",
+    "name": ""
+  },
+  {
+    "code": "G80.1",
+    "name": ""
+  },
+  {
+    "code": "G80.3",
+    "name": ""
+  },
+  {
+    "code": "G80.8",
+    "name": ""
+  },
+  {
+    "code": "G80.9",
+    "name": ""
+  },
+  {
+    "code": "G82.3",
+    "name": ""
+  },
+  {
+    "code": "G82.4",
+    "name": ""
+  },
+  {
+    "code": "G82.5",
+    "name": ""
+  },
+  {
+    "code": "G91.9",
+    "name": ""
+  },
+  {
+    "code": "G93.1",
+    "name": ""
+  },
+  {
+    "code": "G93.3",
+    "name": ""
+  },
+  {
+    "code": "G93.4",
+    "name": "Encefalopatía no especificada"
+  },
+  {
+    "code": "G93.6",
+    "name": ""
+  },
+  {
+    "code": "G93.7",
+    "name": ""
+  },
+  {
+    "code": "G93.8",
+    "name": ""
+  },
+  {
+    "code": "G95.0",
+    "name": ""
+  },
+  {
+    "code": "G95.9",
+    "name": ""
+  },
+  {
+    "code": "H11.1",
+    "name": ""
+  },
+  {
+    "code": "H35.5",
+    "name": ""
+  },
+  {
+    "code": "H49.8",
+    "name": ""
+  },
+  {
+    "code": "I21.*",
+    "name": ""
+  },
+  {
+    "code": "I27.0",
+    "name": ""
+  },
+  {
+    "code": "I27.2",
+    "name": ""
+  },
+  {
+    "code": "I42",
+    "name": "Miocardiopatía"
+  },
+  {
+    "code": "I42.*",
+    "name": ""
+  },
+  {
+    "code": "I42.0",
+    "name": ""
+  },
+  {
+    "code": "I42.1",
+    "name": ""
+  },
+  {
+    "code": "I42.9",
+    "name": ""
+  },
+  {
+    "code": "I61.3",
+    "name": ""
+  },
+  {
+    "code": "I67.5",
+    "name": ""
+  },
+  {
+    "code": "I81.*",
+    "name": ""
+  },
+  {
+    "code": "J44.8",
+    "name": ""
+  },
+  {
+    "code": "J84.1",
+    "name": "Enfermedades pulmonares intersticiales"
+  },
+  {
+    "code": "J96.*",
+    "name": ""
+  },
+  {
+    "code": "J98.4",
+    "name": ""
+  },
+  {
+    "code": "K55.0",
+    "name": ""
+  },
+  {
+    "code": "K55.9",
+    "name": ""
+  },
+  {
+    "code": "K72.*",
+    "name": ""
+  },
+  {
+    "code": "K74.*",
+    "name": ""
+  },
+  {
+    "code": "K76.5",
+    "name": ""
+  },
+  {
+    "code": "K86.8",
+    "name": ""
+  },
+  {
+    "code": "L94.0",
+    "name": ""
+  },
+  {
+    "code": "M31.3",
+    "name": ""
+  },
+  {
+    "code": "M32.1",
+    "name": ""
+  },
+  {
+    "code": "M61.5",
+    "name": ""
+  },
+  {
+    "code": "M89.5",
+    "name": ""
+  },
+  {
+    "code": "N04.*",
+    "name": ""
+  },
+  {
+    "code": "N16.4",
+    "name": ""
+  },
+  {
+    "code": "N17.*",
+    "name": ""
+  },
+  {
+    "code": "N18.*",
+    "name": ""
+  },
+  {
+    "code": "N18.6",
+    "name": ""
+  },
+  {
+    "code": "N19.*",
+    "name": ""
+  },
+  {
+    "code": "N25.8",
+    "name": ""
+  },
+  {
+    "code": "N99.0",
+    "name": ""
+  },
+  {
+    "code": "P10.1",
+    "name": ""
+  },
+  {
+    "code": "P11.2",
+    "name": ""
+  },
+  {
+    "code": "P20.0",
+    "name": ""
+  },
+  {
+    "code": "P20.1",
+    "name": ""
+  },
+  {
+    "code": "P21.0",
+    "name": ""
+  },
+  {
+    "code": "P21.9",
+    "name": ""
+  },
+  {
+    "code": "P27.1",
+    "name": ""
+  },
+  {
+    "code": "P28.5",
+    "name": ""
+  },
+  {
+    "code": "P29.0",
+    "name": ""
+  },
+  {
+    "code": "P29.3",
+    "name": ""
+  },
+  {
+    "code": "P35.*",
+    "name": ""
+  },
+  {
+    "code": "P35.0",
+    "name": ""
+  },
+  {
+    "code": "P35.1",
+    "name": ""
+  },
+  {
+    "code": "P35.8",
+    "name": ""
+  },
+  {
+    "code": "P37.1",
+    "name": ""
+  },
+  {
+    "code": "P52.21",
+    "name": ""
+  },
+  {
+    "code": "P52.4",
+    "name": ""
+  },
+  {
+    "code": "P52.5",
+    "name": ""
+  },
+  {
+    "code": "P52.9",
+    "name": ""
+  },
+  {
+    "code": "P83.2",
+    "name": ""
+  },
+  {
+    "code": "P91.2",
+    "name": ""
+  },
+  {
+    "code": "P91.6",
+    "name": ""
+  },
+  {
+    "code": "P93.1",
+    "name": ""
+  },
+  {
+    "code": "P94.2",
+    "name": ""
+  },
+  {
+    "code": "P96.0",
+    "name": ""
+  },
+  {
+    "code": "PERDIDO",
+    "name": ""
+  },
+  {
+    "code": "Q00.0",
+    "name": ""
+  },
+  {
+    "code": "Q01.*",
+    "name": ""
+  },
+  {
+    "code": "Q03.1",
+    "name": ""
+  },
+  {
+    "code": "Q03.9",
+    "name": ""
+  },
+  {
+    "code": "Q04.0",
+    "name": ""
+  },
+  {
+    "code": "Q04.2",
+    "name": ""
+  },
+  {
+    "code": "Q04.3",
+    "name": ""
+  },
+  {
+    "code": "Q04.4",
+    "name": ""
+  },
+  {
+    "code": "Q04.6",
+    "name": ""
+  },
+  {
+    "code": "Q04.8",
+    "name": ""
+  },
+  {
+    "code": "Q04.9",
+    "name": ""
+  },
+  {
+    "code": "Q07.0",
+    "name": ""
+  },
+  {
+    "code": "Q07.03",
+    "name": ""
+  },
+  {
+    "code": "Q07.3",
+    "name": ""
+  },
+  {
+    "code": "Q11.2",
+    "name": ""
+  },
+  {
+    "code": "Q20.0",
+    "name": ""
+  },
+  {
+    "code": "Q20.3",
+    "name": ""
+  },
+  {
+    "code": "Q20.4",
+    "name": ""
+  },
+  {
+    "code": "Q20.6",
+    "name": ""
+  },
+  {
+    "code": "Q20.8",
+    "name": ""
+  },
+  {
+    "code": "Q21.0",
+    "name": ""
+  },
+  {
+    "code": "Q21.3",
+    "name": ""
+  },
+  {
+    "code": "Q21.8",
+    "name": ""
+  },
+  {
+    "code": "Q22.0",
+    "name": ""
+  },
+  {
+    "code": "Q22.1",
+    "name": ""
+  },
+  {
+    "code": "Q22.3",
+    "name": ""
+  },
+  {
+    "code": "Q22.4",
+    "name": ""
+  },
+  {
+    "code": "Q22.5",
+    "name": ""
+  },
+  {
+    "code": "Q22.6",
+    "name": ""
+  },
+  {
+    "code": "Q23.0",
+    "name": ""
+  },
+  {
+    "code": "Q23.2",
+    "name": ""
+  },
+  {
+    "code": "Q23.4",
+    "name": ""
+  },
+  {
+    "code": "Q23.9",
+    "name": ""
+  },
+  {
+    "code": "Q24.8",
+    "name": ""
+  },
+  {
+    "code": "Q25.4",
+    "name": ""
+  },
+  {
+    "code": "Q25.6",
+    "name": ""
+  },
+  {
+    "code": "Q26.2",
+    "name": ""
+  },
+  {
+    "code": "Q26.4",
+    "name": ""
+  },
+  {
+    "code": "Q26.8",
+    "name": ""
+  },
+  {
+    "code": "Q28.2",
+    "name": ""
+  },
+  {
+    "code": "Q32.1",
+    "name": ""
+  },
+  {
+    "code": "Q33.6",
+    "name": ""
+  },
+  {
+    "code": "Q39.6",
+    "name": ""
+  },
+  {
+    "code": "Q39.8",
+    "name": ""
+  },
+  {
+    "code": "Q40.0",
+    "name": ""
+  },
+  {
+    "code": "Q41.0",
+    "name": ""
+  },
+  {
+    "code": "Q41.9",
+    "name": ""
+  },
+  {
+    "code": "Q43.1",
+    "name": ""
+  },
+  {
+    "code": "Q43.7",
+    "name": ""
+  },
+  {
+    "code": "Q43.8",
+    "name": ""
+  },
+  {
+    "code": "Q44.2",
+    "name": ""
+  },
+  {
+    "code": "Q44.5",
+    "name": ""
+  },
+  {
+    "code": "Q44.7",
+    "name": ""
+  },
+  {
+    "code": "Q60.1",
+    "name": ""
+  },
+  {
+    "code": "Q60.6",
+    "name": ""
+  },
+  {
+    "code": "Q61.4",
+    "name": ""
+  },
+  {
+    "code": "Q61.9",
+    "name": ""
+  },
+  {
+    "code": "Q64.2",
+    "name": ""
+  },
+  {
+    "code": "Q68.8",
+    "name": ""
+  },
+  {
+    "code": "Q72.8",
+    "name": ""
+  },
+  {
+    "code": "Q74.3",
+    "name": ""
+  },
+  {
+    "code": "Q74.8",
+    "name": ""
+  },
+  {
+    "code": "Q75.0",
+    "name": ""
+  },
+  {
+    "code": "Q76.0",
+    "name": ""
+  },
+  {
+    "code": "Q77.2",
+    "name": ""
+  },
+  {
+    "code": "Q77.3",
+    "name": ""
+  },
+  {
+    "code": "Q77.4",
+    "name": ""
+  },
+  {
+    "code": "Q78.0",
+    "name": ""
+  },
+  {
+    "code": "Q78.5",
+    "name": ""
+  },
+  {
+    "code": "Q79.2",
+    "name": ""
+  },
+  {
+    "code": "Q79.3",
+    "name": ""
+  },
+  {
+    "code": "Q80.4",
+    "name": ""
+  },
+  {
+    "code": "Q81.*",
+    "name": ""
+  },
+  {
+    "code": "Q81.0",
+    "name": ""
+  },
+  {
+    "code": "Q81.1",
+    "name": ""
+  },
+  {
+    "code": "Q82.1",
+    "name": ""
+  },
+  {
+    "code": "Q82.4",
+    "name": ""
+  },
+  {
+    "code": "Q85.0",
+    "name": ""
+  },
+  {
+    "code": "Q85.1",
+    "name": ""
+  },
+  {
+    "code": "Q85.8",
+    "name": ""
+  },
+  {
+    "code": "Q86.0",
+    "name": ""
+  },
+  {
+    "code": "Q87.0",
+    "name": ""
+  },
+  {
+    "code": "Q87.1",
+    "name": "Síndromes de malformaciones congénitas con enanismo"
+  },
+  {
+    "code": "Q87.19",
+    "name": ""
+  },
+  {
+    "code": "Q87.2",
+    "name": ""
+  },
+  {
+    "code": "Q87.3",
+    "name": ""
+  },
+  {
+    "code": "Q87.8",
+    "name": ""
+  },
+  {
+    "code": "Q91.*",
+    "name": ""
+  },
+  {
+    "code": "Q91.3",
+    "name": ""
+  },
+  {
+    "code": "Q91.4",
+    "name": ""
+  },
+  {
+    "code": "Q92.0",
+    "name": ""
+  },
+  {
+    "code": "Q92.1",
+    "name": ""
+  },
+  {
+    "code": "Q92.4",
+    "name": ""
+  },
+  {
+    "code": "Q92.7",
+    "name": ""
+  },
+  {
+    "code": "Q92.8",
+    "name": ""
+  },
+  {
+    "code": "Q93.2",
+    "name": ""
+  },
+  {
+    "code": "Q93.3",
+    "name": ""
+  },
+  {
+    "code": "Q93.4",
+    "name": ""
+  },
+  {
+    "code": "Q93.5",
+    "name": ""
+  },
+  {
+    "code": "Q93.8",
+    "name": ""
+  },
+  {
+    "code": "Q95.2",
+    "name": ""
+  },
+  {
+    "code": "Q99.2",
+    "name": ""
+  },
+  {
+    "code": "Q99.8",
+    "name": ""
+  },
+  {
+    "code": "R06.8",
+    "name": ""
+  },
+  {
+    "code": "S06.2",
+    "name": ""
+  },
+  {
+    "code": "T09.3",
+    "name": ""
+  },
+  {
+    "code": "T86.0",
+    "name": ""
+  },
+  {
+    "code": "T86.2",
+    "name": ""
+  },
+  {
+    "code": "Z51.5",
+    "name": ""
+  },
+  {
+    "code": "Z85.72",
+    "name": ""
+  }
+]
